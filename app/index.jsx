@@ -1,14 +1,14 @@
 import { data } from "@/data/todos";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useContext, useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ThemeContext } from "../context/ThemeContext";
-
 import { Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Octicons from "@expo/vector-icons/Octicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StatusBar } from "expo-status-bar";
+import { useContext, useEffect, useState } from "react";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ThemeContext } from "../context/ThemeContext";
 
 export default function Index() {
   const [todos, setTodos] = useState([]);
@@ -33,7 +33,6 @@ export default function Index() {
         console.error(e);
       }
     };
-
     fetchData();
   }, [data]);
 
@@ -46,7 +45,8 @@ export default function Index() {
         console.error(e);
       }
     };
-    storeData()
+
+    storeData();
   }, [todos]);
 
   if (!loaded && !error) {
@@ -72,7 +72,7 @@ export default function Index() {
   };
 
   const removeTodo = (id) => {
-    setTodos(todos.filter((todo) => todos.id !== id));
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   const renderItem = ({ item }) => (
@@ -142,6 +142,7 @@ export default function Index() {
         itemLayoutAnimation={LinearTransition}
         keyboardDismissMode="on-drag"
       />
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
     </SafeAreaView>
   );
 }
